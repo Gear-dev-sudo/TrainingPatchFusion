@@ -80,6 +80,10 @@ You will see examples in the following sections.
 
 Training PatchFusion includes three steps. Here, we use take DepthAnything vitl as an example. 
 
+
+## Remember to update the config file for max_Depth as 200
+
+
 ### Coarse Model Training
 
 First, check the config file: `./configs/patchfusion_depthanything/depthanything_vitl_coarse_pretrain_u4k`. Modify the config item `zoe_depth_config.pretrained_resource` to the checkpoint path (the default path is `local::./work_dir/DepthAnything_vitl.pt`). The prefix `local::` is necessary because we based on the offical implementation.
