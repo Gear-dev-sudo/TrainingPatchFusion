@@ -75,7 +75,7 @@ def get_grad_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth=1e-3,
     grad_error[gt>10000] = 3.
     return grad_error.long().squeeze(dim=1)
 
-def get_grad_value_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth=1e-3, max_depth=80):
+def get_grad_value_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth=1e-3, max_depth=200):
     invalid_mask = torch.logical_or(gt<=min_depth, gt>=max_depth)
     error = ((gt - coarse_prediction) / gt).abs() 
     error[error>0.1] = 1.
@@ -87,7 +87,7 @@ def get_grad_value_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth
     error[gt>10000] = 3.
     return error.long().squeeze(dim=1)
 
-def get_incoherent_mask(gt, shape=(384, 512), min_depth=1e-3, max_depth=80):
+def get_incoherent_mask(gt, shape=(384, 512), min_depth=1e-3, max_depth=200):
     # incoherent
     ori_shpae = gt.shape[-2:]
     gt_lr = F.interpolate(gt, shape, mode='bilinear', align_corners=True)
@@ -101,7 +101,7 @@ def get_incoherent_mask(gt, shape=(384, 512), min_depth=1e-3, max_depth=80):
     gt_label[gt>10000] = 3.
     return gt_label.long().squeeze(dim=1)
 
-def get_incoherent_grad_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth=1e-3, max_depth=80):
+def get_incoherent_grad_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth=1e-3, max_depth=200):
     # incoherent
     ori_shpae = gt.shape[-2:]
     gt_lr = F.interpolate(gt, shape, mode='bilinear', align_corners=True)
@@ -123,7 +123,7 @@ def get_incoherent_grad_error_mask(gt, coarse_prediction, shape=(384, 512), min_
     gt_label[gt>10000] = 3.
     return gt_label.long().squeeze(dim=1)
 
-def get_incoherent_grad_value_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth=1e-3, max_depth=80):
+def get_incoherent_grad_value_error_mask(gt, coarse_prediction, shape=(384, 512), min_depth=1e-3, max_depth=200):
     # incoherent
     ori_shpae = gt.shape[-2:]
     gt_lr = F.interpolate(gt, shape, mode='bilinear', align_corners=True)
@@ -263,7 +263,7 @@ class EdgeguidedRankingLoss(nn.Module):
         reweight_target=False, 
         only_missing_area=False,
         min_depth=-1e-3, 
-        max_depth=80,
+        max_depth=200,
         missing_value=-99,
         random_direct=True):
         super(EdgeguidedRankingLoss, self).__init__()

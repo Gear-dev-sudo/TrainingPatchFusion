@@ -52,7 +52,7 @@ class Trainer:
         print_log('successfully init trainer', logger='current')
     
     
-    def log_images(self, log_dict, prefix="", scalar_cmap="turbo_r", min_depth=1e-3, max_depth=80, step=0):
+    def log_images(self, log_dict, prefix="", scalar_cmap="turbo_r", min_depth=1e-3, max_depth=200, step=0):
         # Custom log images. Please add more items to the log dict returned from the model
         
         wimages = dict()

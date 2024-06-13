@@ -149,7 +149,7 @@ class ImageDataset(UnrealStereo4kDataset):
         rgb_image_dir,
         mode='',
         min_depth=1e-3,
-        max_depth=80,
+        max_depth=200,
         gt_dir=None,
         image_resolution=[2160, 3840],
         dataset_name='',
