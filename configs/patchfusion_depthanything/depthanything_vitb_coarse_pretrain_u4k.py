@@ -3,7 +3,7 @@ _base_ = [
 ]
 
 min_depth=1e-3
-max_depth=80
+max_depth=200
     
 zoe_depth_config=dict(
     type='DA-ZoeDepth',
@@ -17,7 +17,7 @@ zoe_depth_config=dict(
         
     # some important params
     # midas_model_type='DPT_BEiT_L_384',
-    pretrained_resource='local::./work_dir/DepthAnything_vitb.pt',
+    pretrained_resource='/home/TrainingPatchFusion/work_dir/DepthAnything_vitb.pt',
     use_pretrained_midas=True,
     train_midas=True,
     freeze_midas_bn=True,
