@@ -90,14 +90,14 @@ class UnrealStereo4kDataset(Dataset):
                     ext_name_l = ext_name_l.replace('npy', 'txt')
                     ext_name_r = filename.replace('Disp0', 'Extrinsics1')
                     ext_name_r = ext_name_r.replace('npy', 'txt')
-                    with open(ext_name_l, 'r') as f:
-                        ext_l = f.readlines()
-                    with open(ext_name_r, 'r') as f:
-                        ext_r = f.readlines()
-                    f = float(ext_l[0].split(' ')[0])
-                    img_info_l['focal'] = f
-                    base = abs(float(ext_l[1].split(' ')[3]) - float(ext_r[1].split(' ')[3]))
-                    img_info_l['depth_factor'] = base * f
+                    #with open(ext_name_l, 'r') as f:
+                     #   ext_l = f.readlines()
+                    #with open(ext_name_r, 'r') as f:
+                     #   ext_r = f.readlines()
+                    #f = float(ext_l[0].split(' ')[0])
+                    #img_info_l['focal'] = f
+                    #base = abs(float(ext_l[1].split(' ')[3]) - float(ext_r[1].split(' ')[3]))
+                    #img_info_l['depth_factor'] = base * f
 
                     img_infos.append(img_info_l)
         else:
@@ -110,13 +110,13 @@ class UnrealStereo4kDataset(Dataset):
     def __getitem__(self, idx):
         img_file_path = self.data_infos[idx]['img_path']
         disp_path = self.data_infos[idx]['depth_map_path']
-        depth_factor = self.data_infos[idx]['depth_factor']
+        #depth_factor = self.data_infos[idx]['depth_factor']
 
         image = np.fromfile(open(img_file_path, 'rb'), dtype=np.uint8).reshape(2160, 3840, 3) 
         
         # load depth
         disp_gt = np.load(disp_path, mmap_mode='c').astype(np.float32)
-        depth_gt = depth_factor / disp_gt
+        depth_gt = disp_gt/100
         
         if self.mode == 'train':
             image, gt_info = aug_rotate(image, [depth_gt, disp_gt], self.transform_cfg.degree)

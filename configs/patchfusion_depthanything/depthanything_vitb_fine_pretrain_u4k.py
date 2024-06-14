@@ -3,7 +3,7 @@ _base_ = [
 ]
 
 min_depth=1e-3
-max_depth=80
+max_depth=200
     
 zoe_depth_config=dict(
     type='DA-ZoeDepth',

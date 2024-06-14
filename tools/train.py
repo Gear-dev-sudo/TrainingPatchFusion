@@ -169,21 +169,59 @@ def main():
         logger.info(model)
         
     # build dataloader
+    print("#Debugging: cfg.dataloader",cfg.train_dataloader)
     dataset = build_dataset(cfg.train_dataloader.dataset)
     if runner_info.distributed:
         train_sampler = torch.utils.data.distributed.DistributedSampler(dataset)
     else:
         train_sampler = None
     
+##debugging
+    # Check dataset size
+    dataset_size = len(dataset)
+    print(f"Dataset size: {dataset_size}")
+    
+    # Check batch size
+    batch_size = cfg.train_dataloader.batch_size
+    print(f"Batch size: {batch_size}")
+    
+    # Ensure batch size is a positive integer
+    if batch_size <= 0:
+        raise ValueError(f"Batch size must be a positive integer, but got {batch_size}")
+    
+    # Check if dataset is empty
+    if dataset_size == 0:
+        raise ValueError("Dataset is empty. Please check your dataset.")
+    
+    # Check if batch size is greater than dataset size
+    if batch_size > dataset_size:
+        raise ValueError(f"Batch size ({batch_size}) is greater than dataset size ({dataset_size}).")
+    
+    # Check sampler
+    if train_sampler is not None:
+        print("Using custom sampler.")
+    else:
+        print("No custom sampler provided. Using default shuffling.")
+    
+    # Initialize DataLoader
     train_dataloader = DataLoader(
         dataset,
-        batch_size=cfg.train_dataloader.batch_size,
+        batch_size=batch_size,
         shuffle=(train_sampler is None),
         num_workers=cfg.train_dataloader.num_workers,
         pin_memory=True,
         persistent_workers=True,
-        sampler=train_sampler)
-
+        sampler=train_sampler
+    )
+    
+    # Check DataLoader length
+    dataloader_length = len(train_dataloader)
+    print(f"Length of train_dataloader: {dataloader_length}")
+    
+    # Ensure DataLoader length is not zero
+    if dataloader_length == 0:
+        raise ValueError("DataLoader length is 0. Please check your DataLoader configuration.")
+##
 
     dataset = build_dataset(cfg.val_dataloader.dataset)
     if runner_info.distributed:
