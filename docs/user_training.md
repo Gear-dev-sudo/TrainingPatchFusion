@@ -46,7 +46,11 @@ monocular-depth-estimation-toolbox
 
 ## Pre-trained Model Preparation:
 
+```
+export PYTHONPATH="${PYTHONPATH}:/path/to/the/folder/PatchFusion"
+export PYTHONPATH="${PYTHONPATH}:/path/to/the/folder/PatchFusion/external"
 Before trainig, please download pre-trained metric depth estimators from https://huggingface.co/zhyever/PatchFusion/tree/main. We provide pre-trained checkpoints for Depth-Anything and ZoeDepth.
+```
 
 | Model Name  | Config Path  | 
 |---|---|
