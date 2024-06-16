@@ -1,7 +1,7 @@
 
 
 train_dataloader=dict(
-    batch_size=4,
+    batch_size=1,
     num_workers=4,
     dataset=dict(
         type='UnrealStereo4kDataset',
